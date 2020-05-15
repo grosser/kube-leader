@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-leader
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kube-leader
+  template:
+    metadata:
+      labels:
+        app: kube-leader
+    spec:
+      containers:
+      - name: leader
+        image: "kube_leader" # via rake server
+        imagePullPolicy: Never
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        args: ["sh", "-c", "while sleep 1; do echo leader $(hostname);done"]
