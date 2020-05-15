@@ -8,9 +8,18 @@ Kubernetes leader election via `ConfigMap` as `ENTRYPOINT`.
 
 Install [latest binary](https://github.com/grosser/kube-leader/releases) in `Dockerfile`:
 ```
-RUN curl -sfL <PICK URL FOR LATEST BINARY> | tar -zx && chmod +x kube-leader && ./kube-leader --version
+RUN curl -sfL <PICK URL FOR LATEST BINARY> | tar -zx && chmod +x kube-leader
 ENTRYPOINT ["./kube-leader", "my-lock"]
 CMD ["my", "stuff"]
+```
+
+Add to `Deployment` container:
+```yaml
+env:
+- name: POD_NAME
+  valueFrom:
+    fieldRef:
+      fieldPath: metadata.name
 ```
 
 # Development
