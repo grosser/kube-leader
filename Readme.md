@@ -14,6 +14,25 @@ pod-A {"level":"info","message":"Trying to become the leader."}
 pod-A {"level":"info","message":"Found existing lock","LockOwner":"pod-A"}
 ```
 
+# How it works
+
+## Under the hood
+
+- each `Pod` tries to create the same `ConfigMap` in it's `metadata.namespace`
+- whoever manages to create it, is the leader
+- when leader is deleted, `ConfigMap` is cleaned up via `OwnerReference` by kubernetes
+- when `ConfigMap` `OwnerReference` points to a non-existent `Pod`, the `ConfigMap` is deleted by the next `Pod` that starts
+
+## When to use
+
+- want to make sure there are never 2 copies of your `Pod` running
+- booting a new `Pod` takes a long time because of the image / cluster setup etc
+
+## When not to use
+
+- you `Pod` gets stuck and you need someone else to take over
+- booting a new `Pod` takes a long time because it's executable is slow to start (in that case you need inline leader election)
+
 # Install
 
 Install [latest binary](https://github.com/grosser/kube-leader/releases) in `Dockerfile`:
@@ -55,11 +74,11 @@ Add permissions to `Role`:
 
 Create a new release via github UI, workflow will automatically build a new binary.
 
-
 # TODO
 
 - support flags like `--help` or log/interval options
 - reduce binary size by not relying on operator-sdk directly
+- make it spawn the child and relay signals like [consul lock](https://www.consul.io/docs/commands/lock.html#usage) does, so it can be used when executable hangs
 
 
 # Author
