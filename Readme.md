@@ -22,6 +22,16 @@ env:
       fieldPath: metadata.name
 ```
 
+Add permissions to `Role`:
+```
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["create"]
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "delete"]
+```
+
 # Development
 
 ## Test
