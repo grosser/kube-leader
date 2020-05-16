@@ -6,6 +6,16 @@ Kubernetes leader election via `ConfigMap` as `ENTRYPOINT`.
 - noop when running outside a cluster
 - reuses battle-tested operator-sdk leader election
 
+```
+pod-B {"level":"info","message":"Trying to become the leader."}
+pod-B {"level":"info","message":"No pre-existing lock was found."}
+pod-B {"level":"info","message":"Became the leader."}
+pod-A {"level":"info","message":"Trying to become the leader."}
+pod-A {"level":"info","message":"Found existing lock","LockOwner":"pod-A"}
+```
+
+# Install
+
 Install [latest binary](https://github.com/grosser/kube-leader/releases) in `Dockerfile`:
 ```
 RUN curl -sfL <PICK URL FOR LATEST BINARY> | tar -zx && chmod +x kube-leader
@@ -26,7 +36,7 @@ Add permissions to `Role`:
 ```
 - apiGroups: [""]
   resources: ["configmaps"]
-  verbs: ["create"]
+  verbs: ["get", "create"]
 - apiGroups: [""]
   resources: ["pods"]
   verbs: ["get", "delete"]
@@ -50,6 +60,7 @@ Create a new release via github UI, workflow will automatically build a new bina
 
 - support flags like `--help` or log/interval options
 - reduce binary size by not relying on operator-sdk directly
+
 
 # Author
 [Michael Grosser](http://grosser.it)<br/>
