@@ -7,11 +7,11 @@ Kubernetes leader election via `ConfigMap` as `ENTRYPOINT`.
 - reuses battle-tested operator-sdk leader election
 
 ```
-pod-B {"level":"info","message":"Trying to become the leader."}
-pod-B {"level":"info","message":"No pre-existing lock was found."}
-pod-B {"level":"info","message":"Became the leader."}
 pod-A {"level":"info","message":"Trying to become the leader."}
-pod-A {"level":"info","message":"Found existing lock","LockOwner":"pod-A"}
+pod-A {"level":"info","message":"No pre-existing lock was found."}
+pod-A {"level":"info","message":"Became the leader."}
+pod-B {"level":"info","message":"Trying to become the leader."}
+pod-B {"level":"info","message":"Found existing lock","LockOwner":"pod-A"}
 ```
 
 # How it works
