@@ -3,7 +3,7 @@ WORKDIR /app
 
 RUN apk add git
 
-COPY go.mod go.sum main.go ./
+COPY go.mod go.sum main.go leader.go ./
 RUN go build .
 
 ENTRYPOINT ["/app/kube-leader", "kube-leader-example"]
