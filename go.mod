@@ -11,3 +11,8 @@ require (
 	k8s.io/apimachinery v0.17.4
 	sigs.k8s.io/controller-runtime v0.5.2
 )
+
+// https://github.com/golang/go/issues/33558
+replace (
+	k8s.io/client-go => k8s.io/client-go v0.0.0-20190718183610-8e956561bbf5
+)
