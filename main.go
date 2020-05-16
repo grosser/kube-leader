@@ -3,20 +3,21 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/operator-framework/operator-sdk/pkg/leader"
-	logf "sigs.k8s.io/controller-runtime/pkg/log"
+	"github.com/go-logr/logr"
+	"github.com/go-logr/zapr"
+	"go.uber.org/zap"
 	"os"
 	"os/exec"
 	"syscall"
-	"go.uber.org/zap"
-	"github.com/go-logr/zapr"
 )
 
-func main(){
+var log logr.Logger
+
+func main() {
 	setupLogging()
 
 	// wait here until we become the leader
-	if err := leader.Become(context.TODO(), os.Args[1]); err != nil {
+	if err := Become(context.TODO(), os.Args[1]); err != nil {
 		fmt.Fprintln(os.Stderr, fmt.Sprintf("kube-leader: %v", err.Error()))
 		os.Exit(1)
 	}
@@ -32,7 +33,7 @@ func main(){
 	}
 }
 
-// configure global logging which is used by operator sdk
+// configure logging which is used by leader.go
 func setupLogging() {
 	loggerConfig := zap.NewProductionConfig()
 	loggerConfig.EncoderConfig.TimeKey = ""
@@ -42,5 +43,5 @@ func setupLogging() {
 	if err != nil {
 		panic(err)
 	}
-	logf.SetLogger(zapr.NewLogger(logger))
+	log = zapr.NewLogger(logger)
 }

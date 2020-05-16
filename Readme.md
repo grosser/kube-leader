@@ -46,6 +46,11 @@ Add permissions to `Role`:
 Create a new release via github UI, workflow will automatically build a new binary.
 
 
+# TODO
+
+- support flags like `--help` or log/interval options
+- reduce binary size by not relying on operator-sdk directly
+
 # Author
 [Michael Grosser](http://grosser.it)<br/>
 michael@grosser.it<br/>
