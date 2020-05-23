@@ -78,7 +78,7 @@ Create a new release via github UI, workflow will automatically build a new bina
 
 - support flags like `--help` or log/interval options
 - reduce binary size by not relying on operator-sdk directly
-- make it spawn the child and relay signals like [consul lock](https://www.consul.io/docs/commands/lock.html#usage) does, so it can be used when executable hangs
+- use lease api [example](https://carlosbecker.com/posts/k8s-leader-election), this requires it to spawn the child and relay signals like [consul lock](https://www.consul.io/docs/commands/lock.html#usage) does, so it can shut down the process when lease is lost
 
 
 # Author
