@@ -30,8 +30,8 @@ pod-B {"level":"info","message":"Found existing lock","LockOwner":"pod-A"}
 
 ## When not to use
 
-- you `Pod` gets stuck and you need someone else to take over
-- booting a new `Pod` takes a long time because it's executable is slow to start (in that case you need inline leader election)
+- you `Pod` gets stuck and you need someone else to take over (use `livenessProbe` to take down stuck pods)
+- booting a new `Pod` takes a long time because it's executable is slow to start (use the same leader election logic but inside your codebase)
 
 # Install
 
